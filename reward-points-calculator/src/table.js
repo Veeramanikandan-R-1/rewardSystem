@@ -50,9 +50,9 @@ export const RewardTable = ({ tableHeader, tabledata }) => {
                 <tr>
                   <th scope="row">{index+1}</th>
                   <td>{data.userName}</td>
-                  <td>{data['06']}</td>
-                  <td>{data['07']}</td>
-                  <td>{data['08']}</td>
+                  <td>{data['06'] || "--"}</td>
+                  <td>{data['07']|| "--"}</td>
+                  <td>{data['08']|| "--"}</td>
                   <td>{data.total}</td>
                 </tr>
               );

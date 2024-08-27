@@ -15,8 +15,7 @@ const transactions = [
 
 export const getTrasactions = async () => {
     try {
-      // const res = await api.get("/gettrasnactions", form);
-      // return res;
+     
       return new Promise((res, rej) => {
        setTimeout(() => res({data:transactions}), 3000)
       })

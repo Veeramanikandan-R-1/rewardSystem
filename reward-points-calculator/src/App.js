@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { getTrasactions } from './utils/get_transactions';
-import Spinner from './common/loader';
-import { RewardTable, TransactionsTable } from './table';
+import React, { useEffect, useState } from "react";
+import { getTrasactions } from "./utils/get_transactions";
+import Spinner from "./common/loader";
+import { RewardTable, TransactionsTable } from "./table";
 
 const calculatePoints = (transactions) => {
   const pointsPerCustomer = {};
 
   transactions.forEach(({ customerId, date, amount, userName }) => {
-    const month = date.split('-')[1];
+    const month = date.split("-")[1];
     let points = 0;
 
     if (amount > 100) {
@@ -33,46 +33,66 @@ const calculatePoints = (transactions) => {
 };
 
 const App = () => {
-  const [transactions, setTransactions] = useState([])
+  const [transactions, setTransactions] = useState([]);
+  const [rewardData, setRewardData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showReward, setShowReward] = useState(false);
-  const transactionHeader = ["S.No","Name", "Date", "Amount"]
-  const rewardHeader = ["S.No", "Name", "Jan", "Feb", "Mar","Total"]
-  const rewardData = [{userName:"user1", "06":"100", "07":"105","08":"28", total:"2222"}]
+  const transactionHeader = ["S.No", "Name", "Date", "Amount"];
+  const rewardHeader = ["S.No", "Name", "June", "July", "August", "Total"];
 
   useEffect(() => {
-    setIsLoading(true)
-    getTrasactions().then(response => {
-      console.log(response)
-      setTransactions(response?.data);
-      let rewardPoints = calculatePoints(response?.data)
-      console.log('rewardPoints',rewardPoints)
-      rewardPoints = Object.keys(rewardPoints).map(data=>({
-        userName: rewardPoints[data].userName,
-        ...rewardPoints[data],
-      }))
-      console.log('rewardPoints',rewardPoints)
-      setIsLoading(false)
-    }).catch(err=>{
-      setIsLoading(false)
-      console.error(err)
-    })
-  }, [])
+    setIsLoading(true);
+    getTrasactions()
+      .then((response) => {
+        console.log(response);
+        setTransactions(response?.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+      });
+  }, []);
   const showRewardHandler = () => {
-    setShowReward(true)
-  }
+    let rewardPoints = calculatePoints(transactions);
+        rewardPoints = Object.keys(rewardPoints).map((data) => ({
+          userName: rewardPoints[data].userName,
+          ...rewardPoints[data],
+        }));
+        setRewardData(rewardPoints);
+    setShowReward(true);
+  };
   return (
-    <div className='col-md'>
-      <div className='row'>
-        {!isLoading && <h4 className='mx-auto'>Customer Transactions</h4>}
-      {!isLoading && <TransactionsTable tableHeader={transactionHeader} tabledata={transactions}/>} 
+    <div className="container text-center">
+      <div>{!isLoading && <h2 className="text-primary">Reward points Calculator</h2>}</div>
+      <div className="col-md">
+        <div>{!isLoading && <h4>Customer Transactions</h4>}</div>
+        <div className="row">
+          {!isLoading && (
+            <TransactionsTable
+              tableHeader={transactionHeader}
+              tabledata={transactions}
+            />
+          )}
+        </div>
+        {!isLoading && (
+          <button
+            type="button"
+            class="btn btn-primary mt-3"
+            onClick={showRewardHandler}
+          >
+            Calculate Rewards
+          </button>
+        )}
+        {!isLoading && showReward && (
+          <div className="row mt-3">
+            {!isLoading && <h4>Rewards</h4>}
+            {!isLoading && (
+              <RewardTable tableHeader={rewardHeader} tabledata={rewardData} />
+            )}
+          </div>
+        )}
+        {isLoading && <Spinner />}
       </div>
-      {!isLoading  && <button type="button" class="btn btn-success" onClick={showRewardHandler}>Calculate Rewards</button>}
-      {(!isLoading  && showReward) && <div className='row'>
-        {!isLoading && <h4>Rewards</h4>}
-      {!isLoading && <RewardTable tableHeader={rewardHeader} tabledata={rewardData}/>} 
-      </div>}
-      {isLoading && <Spinner />}
     </div>
   );
 };
