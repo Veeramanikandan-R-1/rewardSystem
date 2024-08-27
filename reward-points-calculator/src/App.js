@@ -66,10 +66,12 @@ const PointsTable = ({ transactions }) => {
 const App = () => {
 
     const transactionHeader = ["S.No","Name", "Date", "Amount"]
+    const rewardHeader = ["S.No", "Name", "Jan", "Feb", "Mar","Total"]
 return (
   <div>
     {/* <PointsTable transactions={transactions} /> */}
     <TableComponent tableHeader={transactionHeader}/>
+    <TableComponent tableHeader={rewardHeader}/>
   </div>
 );
 };
