@@ -3,11 +3,11 @@ import React from "react";
 export const TransactionsTable = ({ tableHeader, tabledata }) => {
   console.log("tableHeader", tableHeader);
   return (
-    <div class="TableContainer">
+    <div class="TableContainer" data-testid='table-component'>
       <table class="table table-hover">
         <thead>
           <tr>
-            {tableHeader.map((header, index) => {
+            {tableHeader?.map((header, index) => {
               return <th scope="col">{header}</th>;
             })}
           </tr>
