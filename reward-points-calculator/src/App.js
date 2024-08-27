@@ -1,4 +1,5 @@
 import React from 'react';
+import TableComponent from './table';
 
 const transactions = [
   { customerId: 'C001', date: '2024-06-15', amount: 120 },
@@ -8,6 +9,8 @@ const transactions = [
   { customerId: 'C002', date: '2024-08-05', amount: 50 },
   { customerId: 'C003', date: '2024-08-19', amount: 150 }
 ];
+
+
 
 const calculatePoints = (transactions) => {
   const pointsPerCustomer = {};
@@ -61,9 +64,12 @@ const PointsTable = ({ transactions }) => {
 };
 
 const App = () => {
+
+    const transactionHeader = ["S.No","Name", "Date", "Amount"]
 return (
   <div>
-    <PointsTable transactions={transactions} />
+    {/* <PointsTable transactions={transactions} /> */}
+    <TableComponent tableHeader={transactionHeader}/>
   </div>
 );
 };
