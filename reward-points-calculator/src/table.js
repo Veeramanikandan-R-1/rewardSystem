@@ -13,7 +13,7 @@ export const TransactionsTable = ({ tableHeader, tabledata }) => {
           </tr>
         </thead>
         <tbody>
-          {tabledata.map((data, index) => {
+          {tabledata?.map((data, index) => {
             return (
               <tr>
                 <th scope="row">{index+1}</th>
@@ -35,17 +35,17 @@ export const TransactionsTable = ({ tableHeader, tabledata }) => {
 export const RewardTable = ({ tableHeader, tabledata }) => {
     console.log("tableHeader", tableHeader);
     return (
-      <div class="TableContainer">
+      <div class="TableContainer" data-testid="table-container">
         <table class="table table-hover ">
           <thead>
             <tr>
-              {tableHeader.map((header, index) => {
+              {tableHeader?.map((header, index) => {
                 return <th scope="col">{header}</th>;
               })}
             </tr>
           </thead>
           <tbody>
-            {tabledata.map((data, index) => {
+            {tabledata?.map((data, index) => {
               return (
                 <tr>
                   <th scope="row">{index+1}</th>

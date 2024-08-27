@@ -1,5 +1,5 @@
 const transactions = [
-    { customerId: 'C001', date: '2024-06-15', amount: 120, userName: 'User1' },
+    { customerId: 'C001', date: '2024-06-15', amount: 140.75, userName: 'User1' },
     { customerId: 'C002', date: '2024-06-18', amount: 75, userName: 'User2' },
     { customerId: 'C001', date: '2024-07-21', amount: 200, userName: 'User1' },
     { customerId: 'C003', date: '2024-07-11', amount: 60, userName: 'User3' },

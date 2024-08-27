@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import TableComponent from './table';
+import {TransactionsTable} from './table';
 
 test('renders learn react link', () => {
-  const {debug,getByTestId} = render(<TableComponent />);
+  const {debug,getByTestId} = render(<TransactionsTable />);
   expect(getByTestId('table-component')).toBeInTheDocument()
 });
