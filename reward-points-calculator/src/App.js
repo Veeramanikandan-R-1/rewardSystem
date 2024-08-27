@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getTrasactions } from './utils/get_transactions';
+import Spinner from './common/loader';
 import TableComponent from './table';
 
 const transactions = [
@@ -28,11 +30,11 @@ const calculatePoints = (transactions) => {
     if (!pointsPerCustomer[customerId]) {
       pointsPerCustomer[customerId] = { total: 0 };
     }
-    
+
     if (!pointsPerCustomer[customerId][month]) {
       pointsPerCustomer[customerId][month] = 0;
     }
-    
+
     pointsPerCustomer[customerId][month] += points;
     pointsPerCustomer[customerId].total += points;
   });
@@ -64,14 +66,27 @@ const PointsTable = ({ transactions }) => {
 };
 
 const App = () => {
+  const [transactions, setTransactions] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const transactionHeader = ["S.No","Name", "Date", "Amount"]
 
-    const transactionHeader = ["S.No","Name", "Date", "Amount"]
-return (
-  <div>
-    {/* <PointsTable transactions={transactions} /> */}
-    <TableComponent tableHeader={transactionHeader}/>
-  </div>
-);
+  useEffect(() => {
+    setIsLoading(true)
+    getTrasactions().then(response => {
+      console.log(response)
+      setTransactions(response?.data);
+      setIsLoading(false)
+    }).catch(err=>{
+      setIsLoading(false)
+      console.error(err)
+    })
+  }, [])
+  return (
+    <div>
+      <TableComponent tableHeader={transactionHeader} tabledata={transactions}/>
+      {isLoading && <Spinner />}
+    </div>
+  );
 };
 
 export default App;
