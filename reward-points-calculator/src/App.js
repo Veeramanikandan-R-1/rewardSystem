@@ -1,5 +1,7 @@
-import React from 'react';
-import TableComponent from './table';
+import React, { useEffect, useState } from 'react';
+import { getTrasactions } from './utils/get_transactions';
+import Spinner from './common/loader';
+import { RewardTable, TransactionsTable } from './table';
 
 const transactions = [
   { customerId: 'C001', date: '2024-06-15', amount: 120 },
@@ -28,11 +30,11 @@ const calculatePoints = (transactions) => {
     if (!pointsPerCustomer[customerId]) {
       pointsPerCustomer[customerId] = { total: 0 };
     }
-    
+
     if (!pointsPerCustomer[customerId][month]) {
       pointsPerCustomer[customerId][month] = 0;
     }
-    
+
     pointsPerCustomer[customerId][month] += points;
     pointsPerCustomer[customerId].total += points;
   });
@@ -64,16 +66,34 @@ const PointsTable = ({ transactions }) => {
 };
 
 const App = () => {
+  const [transactions, setTransactions] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const transactionHeader = ["S.No","Name", "Date", "Amount"]
+  const rewardHeader = ["S.No", "Name", "Jan", "Feb", "Mar","Total"]
+  const rewardData = [{userName:"user1", "06":"100", "07":"105","08":"28", total:"2222"}]
 
-    const transactionHeader = ["S.No","Name", "Date", "Amount"]
-    const rewardHeader = ["S.No", "Name", "Jan", "Feb", "Mar","Total"]
-return (
-  <div>
-    {/* <PointsTable transactions={transactions} /> */}
-    <TableComponent tableHeader={transactionHeader}/>
-    <TableComponent tableHeader={rewardHeader}/>
-  </div>
-);
+  useEffect(() => {
+    setIsLoading(true)
+    getTrasactions().then(response => {
+      console.log(response)
+      setTransactions(response?.data);
+      setIsLoading(false)
+    }).catch(err=>{
+      setIsLoading(false)
+      console.error(err)
+    })
+  }, [])
+  return (
+    <div className='col-md'>
+      <div className='row'>
+      {!isLoading && <TransactionsTable tableHeader={transactionHeader} tabledata={transactions}/>} 
+      </div>
+      <div className='row'>
+      {!isLoading && <RewardTable tableHeader={rewardHeader} tabledata={rewardData}/>} 
+      </div>
+      {isLoading && <Spinner />}
+    </div>
+  );
 };
 
 export default App;
