@@ -1,7 +1,6 @@
 import React from "react";
 
 export const TransactionsTable = ({ tableHeader, tabledata }) => {
-  console.log("tableHeader", tableHeader);
   return (
     <div class="TableContainer" data-testid='table-component'>
       <table class="table table-hover">
@@ -33,7 +32,6 @@ export const TransactionsTable = ({ tableHeader, tabledata }) => {
 
 
 export const RewardTable = ({ tableHeader, tabledata }) => {
-    console.log("tableHeader", tableHeader);
     return (
       <div class="TableContainer" data-testid="table-container">
         <table class="table table-hover ">
